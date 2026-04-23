@@ -198,6 +198,30 @@ function FieldMap({ field, reservations, onSelect, isAdmin, onAdminDelete }) {
   );
 }
 
+// ─── Form field (defined outside Modal to prevent remount on each keystroke) ──
+function FormField({ fkey, label, value, onChange, placeholder, required, accentColor, focused, onFocus, onBlur }) {
+  return (
+    <div style={{ marginBottom: 14 }}>
+      <label style={{ display: "block", fontSize: 12, fontWeight: 700, color: "#475569", marginBottom: 5, letterSpacing: "0.04em", textTransform: "uppercase" }}>
+        {label} {required && <span style={{ color: accentColor }}>*</span>}
+      </label>
+      <input
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        style={{
+          width: "100%", padding: "10px 12px",
+          border: `1.5px solid ${focused ? accentColor : "#e2e8f0"}`,
+          borderRadius: 8, fontSize: 14, outline: "none",
+          background: "#f8fafc", color: "#1e293b", transition: "border-color 0.15s",
+        }}
+        onFocus={onFocus}
+        onBlur={onBlur}
+      />
+    </div>
+  );
+}
+
 // ─── Reservation modal ────────────────────────────────────────────────────────
 function Modal({ boothId, onClose, onConfirm, loading }) {
   const [name, setName] = useState("");
@@ -207,25 +231,6 @@ function Modal({ boothId, onClose, onConfirm, loading }) {
   const dept = getDept(boothId);
   const cfg = DEPT[dept];
   const valid = name.trim().length > 1 && sid.trim().length > 3;
-
-  const Field = ({ fkey, label, value, set, placeholder, required }) => (
-    <div style={{ marginBottom: 14 }}>
-      <label style={{ display: "block", fontSize: 12, fontWeight: 700, color: "#475569", marginBottom: 5, letterSpacing: "0.04em", textTransform: "uppercase" }}>
-        {label} {required && <span style={{ color: cfg.color }}>*</span>}
-      </label>
-      <input
-        value={value} onChange={e => set(e.target.value)} placeholder={placeholder}
-        style={{
-          width: "100%", padding: "10px 12px",
-          border: `1.5px solid ${focused[fkey] ? cfg.color : "#e2e8f0"}`,
-          borderRadius: 8, fontSize: 14, outline: "none",
-          background: "#f8fafc", color: "#1e293b", transition: "border-color 0.15s",
-        }}
-        onFocus={() => setFocused(f => ({ ...f, [fkey]: true }))}
-        onBlur={() => setFocused(f => ({ ...f, [fkey]: false }))}
-      />
-    </div>
-  );
 
   return (
     <div onClick={e => e.target === e.currentTarget && onClose()} style={{
@@ -255,9 +260,9 @@ function Modal({ boothId, onClose, onConfirm, loading }) {
           }}>×</button>
         </div>
 
-        <Field fkey="name"  label="Full Name"       value={name}  set={setName}  placeholder="Your full name"  required />
-        <Field fkey="sid"   label="Student ID"      value={sid}   set={setSid}   placeholder="e.g. 2026001234" required />
-        <Field fkey="group" label="Project / Group" value={group} set={setGroup} placeholder="Optional" />
+        <FormField fkey="name"  label="Full Name"       value={name}  onChange={e => setName(e.target.value)}  placeholder="Your full name"  required accentColor={cfg.color} focused={focused["name"]}  onFocus={() => setFocused(f => ({...f, name: true}))}  onBlur={() => setFocused(f => ({...f, name: false}))} />
+        <FormField fkey="sid"   label="Student ID"      value={sid}   onChange={e => setSid(e.target.value)}   placeholder="e.g. 2026001234" required accentColor={cfg.color} focused={focused["sid"]}   onFocus={() => setFocused(f => ({...f, sid: true}))}   onBlur={() => setFocused(f => ({...f, sid: false}))} />
+        <FormField fkey="group" label="Project / Group" value={group} onChange={e => setGroup(e.target.value)} placeholder="Optional"        accentColor={cfg.color} focused={focused["group"]} onFocus={() => setFocused(f => ({...f, group: true}))} onBlur={() => setFocused(f => ({...f, group: false}))} />
 
         <div style={{ display: "flex", gap: 10, marginTop: 22 }}>
           <button onClick={onClose} style={{
