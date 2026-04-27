@@ -28,10 +28,10 @@ const getDept = (id) => {
   const n = parseInt(id.slice(1));
   if (id[0] === "A") {
     if (n >= 1  && n <= 11) return "ACC";
-    if (n >= 12 && n <= 23) return "IR";
-    if (n >= 24 && n <= 34) return "MLS";
-    if (n >= 35 && n <= 46) return "ACC";
-    if (n >= 47 && n <= 58) return "MLS";
+    if (n >= 12 && n <= 21) return "IR";
+    if (n >= 22 && n <= 33) return "MLS";
+    if (n >= 34 && n <= 45) return "ACC";
+    if (n >= 46 && n <= 57) return "MLS";
   }
   if (id[0] === "B") {
     if (n >= 1  && n <= 5)  return "IT";
@@ -47,13 +47,14 @@ const getDept = (id) => {
 const FIELDS = {
   A: {
     name: "Field 1", subtitle: "Football Yard", size: "42m × 45m",
-    topRow:     ["A1","A2","A3","A4","A5","A6","A7","A8","A9","A10","A11"],
-    rightCol:   ["A12","A13","A14","A15","A16","A17","A18","A19","A20","A21","A22","A23"],
-    bottomRow:  ["A34","A33","A32","A31","A30","A29","A28","A27","A26","A25","A24"],
+    cornerTopLeft: "A1",
+    topRow:     ["A2","A3","A4","A5","A6","A7","A8","A9","A10","A11"],
+    rightCol:   ["A12","A13","A14","A15","A16","A17","A18","A19","A20","A21"],
+    bottomRow:  ["A33","A32","A31","A30","A29","A28","A27","A26","A25","A24","A23","A22"],
     leftCol:    [],
     middleRows: [
-      ["A35","A36","A37","A38","A39","A40","A41","A42","A43","A44","A45","A46"],
-      ["A47","A48","A49","A50","A51","A52","A53","A54","A55","A56","A57","A58"],
+      ["A34","A35","A36","A37","A38","A39","A40","A41","A42","A43","A44","A45"],
+      ["A46","A47","A48","A49","A50","A51","A52","A53","A54","A55","A56","A57"],
     ],
   },
   B: {
@@ -78,6 +79,7 @@ const FIELDS = {
 const allBoothIds = (field) => {
   const f = FIELDS[field];
   return [
+    ...(f.cornerTopLeft ? [f.cornerTopLeft] : []),
     ...(f.topRow||[]),
     ...(f.rightCol||[]),
     ...(f.rightColUpper||[]),
@@ -203,15 +205,18 @@ function FieldAMap({ reservations, onSelect, isAdmin, onAdminCancel, selectedDep
   const rb = (id,bw,bh) => <Booth key={id} id={id} bw={bw} bh={bh} reservations={reservations} onSelect={onSelect} isAdmin={isAdmin} onAdminCancel={onAdminCancel} selectedDept={selectedDept}/>;
   return (
     <div style={{position:"relative",width:FW,height:FH,background:"#1b6b3a",border:"2px solid #134f2a",borderRadius:6,flexShrink:0}}>
-      <Corner x={0}    y={0}     w={TW} h={PD} type="nu"  label="N/U" />
+      {/* Top-left: A1 as corner booth */}
+      <div style={{position:"absolute",left:0,top:0}}>{rb("A1",TW,PD)}</div>
+      {/* Top-right: entrance */}
       <Corner x={RC_X} y={0}     w={PD} h={PD} type="ent" label="ENT" />
-      <Corner x={0}    y={FH-PD} w={TW} h={PD} type="nu"  label="N/U" />
-      <Corner x={RC_X} y={FH-PD} w={PD} h={PD} type="ent" label="ENT" />
-      <GreenLabel x={TW} y={PD} w={RC_X-TW} h={MID1_Y-PD} name="Field 1" size="42m × 45m" booths={58} />
+      {/* Bottom-left: no corner (booth row starts at x=0) */}
+      {/* Bottom-right: entrance/non-usable */}
+      <Corner x={RC_X} y={FH-PD} w={PD} h={PD} type="ent" label="ENT N/U" />
+      <GreenLabel x={TW} y={PD} w={RC_X-TW} h={MID1_Y-PD} name="Field 1" size="42m × 45m" booths={57} />
       <GreenLabel x={TW} y={MID2_Y+BS} w={RC_X-TW} h={FH-PD-MID2_Y-BS} walkway="Walkway" />
       {FIELDS.A.topRow.map((id,i)      => <div key={id} style={{position:"absolute",left:TW+i*BS,top:0}}>{rb(id,BS,PD)}</div>)}
       {FIELDS.A.rightCol.map((id,i)    => <div key={id} style={{position:"absolute",left:RC_X,top:PD+i*BS}}>{rb(id,PD,BS)}</div>)}
-      {FIELDS.A.bottomRow.map((id,i)   => <div key={id} style={{position:"absolute",left:TW+i*BS,top:FH-PD}}>{rb(id,BS,PD)}</div>)}
+      {FIELDS.A.bottomRow.map((id,i)   => <div key={id} style={{position:"absolute",left:i*BS,top:FH-PD}}>{rb(id,BS,PD)}</div>)}
       {FIELDS.A.middleRows[0].map((id,i)=> <div key={id} style={{position:"absolute",left:i*BS,top:MID1_Y}}>{rb(id,BS,BS)}</div>)}
       {FIELDS.A.middleRows[1].map((id,i)=> <div key={id} style={{position:"absolute",left:i*BS,top:MID2_Y}}>{rb(id,BS,BS)}</div>)}
     </div>
