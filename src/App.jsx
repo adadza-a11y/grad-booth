@@ -6,21 +6,21 @@ const ADMIN_PASSWORD = "grad2026admin";
 
 // ─── Departments ──────────────────────────────────────────────────────────────
 const DEPT = {
-  AR:   { label: "Architecture",          color: "#4f46e5", bg: "#e0e7ff", border: "#a5b4fc", text: "#3730a3" },
-  BM:   { label: "Business Management",   color: "#d97706", bg: "#fef3c7", border: "#fcd34d", text: "#78350f" },
-  ACC:  { label: "Accounting",            color: "#16a34a", bg: "#dcfce7", border: "#86efac", text: "#166534" },
-  MLS:  { label: "Medical Lab Sciences",  color: "#be185d", bg: "#fce7f3", border: "#f9a8d4", text: "#831843" },
-  IR:   { label: "Int'l Relations",       color: "#7c3aed", bg: "#ede9fe", border: "#c4b5fd", text: "#4c1d95" },
-  CSIT: { label: "CS & Info Technology",  color: "#dc2626", bg: "#fee2e2", border: "#fca5a5", text: "#991b1b" },
-  EL:   { label: "English Language",      color: "#0891b2", bg: "#cffafe", border: "#67e8f9", text: "#164e63" },
-  CS:   { label: "Comp. Science",         color: "#475569", bg: "#f1f5f9", border: "#cbd5e1", text: "#334155" },
-  NONE: { label: "General",              color: "#b45309", bg: "#fef3c7", border: "#fcd34d", text: "#92400e" },
+  AR:    { label: "Architecture",         color: "#4f46e5", bg: "#e0e7ff", border: "#a5b4fc", text: "#3730a3" },
+  BM:    { label: "Business Management",  color: "#d97706", bg: "#fef3c7", border: "#fcd34d", text: "#78350f" },
+  ACC:   { label: "Accounting",           color: "#16a34a", bg: "#dcfce7", border: "#86efac", text: "#166534" },
+  MLS:   { label: "Medical Lab Sciences", color: "#be185d", bg: "#fce7f3", border: "#f9a8d4", text: "#831843" },
+  IR:    { label: "Int'l Relations",      color: "#7c3aed", bg: "#ede9fe", border: "#c4b5fd", text: "#4c1d95" },
+  CSIT:  { label: "CS&IT",               color: "#dc2626", bg: "#fee2e2", border: "#fca5a5", text: "#991b1b" },
+  EL:    { label: "English Language",     color: "#0891b2", bg: "#cffafe", border: "#67e8f9", text: "#164e63" },
+  PLAIN: { label: "Field 3",             color: "#4a9030", bg: "#edf5e6", border: "#4a9030", text: "#2a5a18" },
+  NONE:  { label: "General",             color: "#b45309", bg: "#fef3c7", border: "#fcd34d", text: "#92400e" },
 };
 
 const DEPT_FIELD = {
   AR: "A", BM: "A", ACC: "A", MLS: "A", IR: "A",
   CSIT: "B", EL: "B",
-  CS: "C", NONE: "A",
+  PLAIN: "C", NONE: "A",
 };
 
 const FIELD_NAMES = { A: "Field 1", B: "Field 2", C: "Field 3" };
@@ -38,7 +38,7 @@ const getDept = (id) => {
     if (n >= 1  && n <= 22) return "CSIT";
     if (n >= 23 && n <= 29) return "EL";
   }
-  if (id[0] === "C") return "CS";
+  if (id[0] === "C") return "PLAIN";
   return "NONE";
 };
 
@@ -303,7 +303,7 @@ function DeptSelector({ onSelect }) {
       <div style={{padding:"32px 28px"}}>
         <p style={{fontSize:15,color:"#475569",marginBottom:24,fontWeight:500}}>Which department are you from? You will only be able to reserve booths assigned to your department.</p>
         <div style={{display:"flex",flexWrap:"wrap",gap:14,maxWidth:720}}>
-          {Object.entries(DEPT).filter(([k])=>k!=="NONE").map(([key,cfg])=>(
+          {Object.entries(DEPT).filter(([k])=>k!=="NONE"&&k!=="PLAIN").map(([key,cfg])=>(
             <div key={key} onClick={()=>onSelect(key)} onMouseEnter={()=>setHov(key)} onMouseLeave={()=>setHov(null)}
               style={{width:170,padding:"20px 18px",borderRadius:12,border:`2px solid ${hov===key?cfg.color:cfg.border}`,background:hov===key?cfg.bg:"#fff",cursor:"pointer",transform:hov===key?"translateY(-3px)":"none",boxShadow:hov===key?`0 8px 24px ${cfg.color}33`:"0 1px 4px rgba(0,0,0,.06)",transition:"all .15s ease"}}>
               <div style={{width:36,height:36,borderRadius:8,background:cfg.bg,border:`2px solid ${cfg.border}`,marginBottom:12,display:"flex",alignItems:"center",justifyContent:"center"}}>
@@ -545,26 +545,28 @@ export default function App() {
 
   // Admin confirm delete
   const handleConfirmDelete = async (boothId) => {
+    setConfirmDeleteId(null);
     try {
-      await deleteDoc(doc(db,"reservations",boothId));
+      const ref = doc(db, "reservations", boothId);
+      await deleteDoc(ref);
       showToast(`Booth ${boothId} reservation cancelled.`);
     } catch(e) {
-      console.error(e);
-      showToast("Failed to cancel. Check your connection.","error");
+      const code = e?.code || e?.message || "unknown";
+      console.error("Delete failed:", code, e);
+      showToast(`Delete failed (${code}) — check Firebase rules.`, "error");
     }
-    setConfirmDeleteId(null);
   };
 
   // Admin delete all
   const handleDeleteAll = async () => {
-    try {
-      await Promise.all(Object.keys(reservations).map(id=>deleteDoc(doc(db,"reservations",id))));
-      setShowAdminPanel(false);
-      showToast("All reservations cleared.");
-    } catch(e) {
-      console.error(e);
-      showToast("Failed to clear all.","error");
-    }
+    const ids = Object.keys(reservations);
+    let failed = 0;
+    await Promise.all(ids.map(id =>
+      deleteDoc(doc(db, "reservations", id)).catch(() => { failed++; })
+    ));
+    setShowAdminPanel(false);
+    if (failed > 0) showToast(`${failed} deletion(s) failed — check Firebase rules.`, "error");
+    else showToast("All reservations cleared.");
   };
 
   const stats = (field) => {
@@ -648,10 +650,10 @@ export default function App() {
       <div style={{padding:"16px 20px",overflowX:"auto"}}>
         {/* Legend */}
         <div style={{display:"flex",flexWrap:"wrap",gap:5,marginBottom:14}}>
-          {Object.entries(DEPT).filter(([k])=>k!=="NONE").map(([key,cfg])=>(
+          {Object.entries(DEPT).filter(([k])=>k!=="NONE"&&k!=="PLAIN").map(([key,cfg])=>(
             <div key={key} style={{display:"flex",alignItems:"center",gap:5,background:cfg.bg,border:`1px solid ${cfg.border}`,borderRadius:6,padding:"4px 9px",opacity:!isAdmin&&selectedDept&&selectedDept!==key?0.3:1}}>
               <div style={{width:9,height:9,borderRadius:2,background:cfg.color}}/>
-              <span style={{fontSize:11,fontWeight:700,color:cfg.text}}>{key}</span>
+              <span style={{fontSize:11,fontWeight:700,color:cfg.text}}>{cfg.label}</span>
             </div>
           ))}
           <div style={{display:"flex",alignItems:"center",gap:5,background:"#f3f4f6",border:"1px solid #d1d5db",borderRadius:6,padding:"4px 9px"}}>
