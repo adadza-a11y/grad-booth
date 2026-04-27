@@ -6,19 +6,20 @@ const ADMIN_PASSWORD = "grad2026admin";
 
 // ─── Departments ──────────────────────────────────────────────────────────────
 const DEPT = {
-  ACC: { label: "Accounting",       color: "#16a34a", bg: "#dcfce7", border: "#86efac", text: "#166534" },
-  IR:  { label: "Int'l Relations",  color: "#4f46e5", bg: "#e0e7ff", border: "#a5b4fc", text: "#3730a3" },
-  MLS: { label: "MLS",              color: "#c2410c", bg: "#ffedd5", border: "#fdba74", text: "#7c2d12" },
-  IT:  { label: "Info Technology",  color: "#dc2626", bg: "#fee2e2", border: "#fca5a5", text: "#991b1b" },
-  AR:  { label: "Architecture",     color: "#475569", bg: "#f1f5f9", border: "#cbd5e1", text: "#334155" },
-  EL:  { label: "Electronics",      color: "#1d4ed8", bg: "#dbeafe", border: "#93c5fd", text: "#1e3a8a" },
-  CS:  { label: "Comp. Science",    color: "#be185d", bg: "#fce7f3", border: "#f9a8d4", text: "#831843" },
-  NONE:{ label: "General",          color: "#b45309", bg: "#fef3c7", border: "#fcd34d", text: "#92400e" },
+  AR:   { label: "Architecture",          color: "#4f46e5", bg: "#e0e7ff", border: "#a5b4fc", text: "#3730a3" },
+  BM:   { label: "Business Management",   color: "#d97706", bg: "#fef3c7", border: "#fcd34d", text: "#78350f" },
+  ACC:  { label: "Accounting",            color: "#16a34a", bg: "#dcfce7", border: "#86efac", text: "#166534" },
+  MLS:  { label: "Medical Lab Sciences",  color: "#be185d", bg: "#fce7f3", border: "#f9a8d4", text: "#831843" },
+  IR:   { label: "Int'l Relations",       color: "#7c3aed", bg: "#ede9fe", border: "#c4b5fd", text: "#4c1d95" },
+  CSIT: { label: "CS & Info Technology",  color: "#dc2626", bg: "#fee2e2", border: "#fca5a5", text: "#991b1b" },
+  EL:   { label: "English Language",      color: "#0891b2", bg: "#cffafe", border: "#67e8f9", text: "#164e63" },
+  CS:   { label: "Comp. Science",         color: "#475569", bg: "#f1f5f9", border: "#cbd5e1", text: "#334155" },
+  NONE: { label: "General",              color: "#b45309", bg: "#fef3c7", border: "#fcd34d", text: "#92400e" },
 };
 
 const DEPT_FIELD = {
-  ACC: "A", IR: "A", MLS: "A",
-  IT: "B", AR: "B", EL: "B",
+  AR: "A", BM: "A", ACC: "A", MLS: "A", IR: "A",
+  CSIT: "B", EL: "B",
   CS: "C", NONE: "A",
 };
 
@@ -27,17 +28,15 @@ const FIELD_NAMES = { A: "Field 1", B: "Field 2", C: "Field 3" };
 const getDept = (id) => {
   const n = parseInt(id.slice(1));
   if (id[0] === "A") {
-    if (n >= 1  && n <= 11) return "ACC";
-    if (n >= 12 && n <= 21) return "IR";
-    if (n >= 22 && n <= 33) return "MLS";
-    if (n >= 34 && n <= 45) return "ACC";
-    if (n >= 46 && n <= 57) return "MLS";
+    if (n >= 1  && n <= 13) return "AR";
+    if (n >= 14 && n <= 22) return "BM";
+    if (n >= 23 && n <= 34) return "ACC";
+    if (n >= 35 && n <= 53) return "MLS";
+    if (n >= 54 && n <= 58) return "IR";
   }
   if (id[0] === "B") {
-    if (n >= 1  && n <= 5)  return "IT";
-    if (n >= 6  && n <= 12) return "AR";
-    if (n >= 13 && n <= 20) return "EL";
-    if (n >= 21 && n <= 27) return "IT";
+    if (n >= 1  && n <= 22) return "CSIT";
+    if (n >= 23 && n <= 29) return "EL";
   }
   if (id[0] === "C") return "CS";
   return "NONE";
@@ -48,22 +47,22 @@ const FIELDS = {
   A: {
     name: "Field 1", subtitle: "Football Yard", size: "42m × 45m",
     cornerTopLeft: "A1",
-    topRow:     ["A2","A3","A4","A5","A6","A7","A8","A9","A10","A11"],
-    rightCol:   ["A12","A13","A14","A15","A16","A17","A18","A19","A20","A21"],
-    bottomRow:  ["A33","A32","A31","A30","A29","A28","A27","A26","A25","A24","A23","A22"],
+    topRow:     ["A2","A3","A4","A5","A6","A7","A8","A9","A10","A11","A12"],
+    rightCol:   ["A13","A14","A15","A16","A17","A18","A19","A20","A21","A22"],
+    bottomRow:  ["A34","A33","A32","A31","A30","A29","A28","A27","A26","A25","A24","A23"],
     leftCol:    [],
     middleRows: [
-      ["A34","A35","A36","A37","A38","A39","A40","A41","A42","A43","A44","A45"],
-      ["A46","A47","A48","A49","A50","A51","A52","A53","A54","A55","A56","A57"],
+      ["A35","A36","A37","A38","A39","A40","A41","A42","A43","A44","A45","A46"],
+      ["A47","A48","A49","A50","A51","A52","A53","A54","A55","A56","A57","A58"],
     ],
   },
   B: {
     name: "Field 2", subtitle: "Back Yard", size: "32m × 30m",
-    topRow:    ["B1","B2","B3","B4","B5"],
-    rightCol:  ["B6","B7","B8","B9","B10","B11","B12"],
-    bottomRow: ["B20","B19","B18","B17","B16","B15","B14","B13"],
-    leftCol:   ["B27","B26","B25","B24","B23","B22","B21"],
-    middleRows:[],
+    topRow:     ["B1","B2","B3","B4","B5","B6"],
+    rightCol:   [],
+    bottomRow:  ["B15","B14","B13","B12","B11","B10","B9","B8","B7"],
+    leftCol:    ["B22","B21","B20","B19","B18","B17","B16"],
+    middleRows: [["B23","B24","B25","B26","B27","B28","B29"]],
   },
   C: {
     name: "Field 3", subtitle: "Side Yard", size: "20m × 30m",
@@ -200,22 +199,26 @@ function Booth({ id, bw, bh, reservations, onSelect, isAdmin, onAdminCancel, sel
 
 // ─── Field A map (42m×45m, 58 booths) ────────────────────────────────────────
 function FieldAMap({ reservations, onSelect, isAdmin, onAdminCancel, selectedDept }) {
-  const FW=504, FH=540, TW=36, RC_X=504-PD;
+  const FW=504, FH=540, TW=36, RC_X=468;
   const MID1_Y=FH/2-BS, MID2_Y=FH/2;
   const rb = (id,bw,bh) => <Booth key={id} id={id} bw={bw} bh={bh} reservations={reservations} onSelect={onSelect} isAdmin={isAdmin} onAdminCancel={onAdminCancel} selectedDept={selectedDept}/>;
   return (
     <div style={{position:"relative",width:FW,height:FH,background:"#1b6b3a",border:"2px solid #134f2a",borderRadius:6,flexShrink:0}}>
-      {/* Top-left: A1 as corner booth */}
+      {/* A1 corner booth (top-left) */}
       <div style={{position:"absolute",left:0,top:0}}>{rb("A1",TW,PD)}</div>
-      {/* Top-right: entrance */}
-      <Corner x={RC_X} y={0}     w={PD} h={PD} type="ent" label="ENT" />
-      {/* Bottom-left: no corner (booth row starts at x=0) */}
-      {/* Bottom-right: entrance/non-usable */}
-      <Corner x={RC_X} y={FH-PD} w={PD} h={PD} type="ent" label="ENT N/U" />
-      <GreenLabel x={TW} y={PD} w={RC_X-TW} h={MID1_Y-PD} name="Field 1" size="42m × 45m" booths={57} />
+      {/* Non-usable at position 2 */}
+      <Corner x={TW} y={0} w={BS} h={PD} type="nu" label="N/U" />
+      {/* Top-right entrance (3m) */}
+      <Corner x={RC_X} y={0}     w={BS} h={PD} type="ent" label="ENT" />
+      {/* Bottom-right entrance/N/U */}
+      <Corner x={RC_X} y={FH-PD} w={BS} h={PD} type="ent" label="ENT N/U" />
+      <GreenLabel x={TW} y={PD} w={RC_X-TW} h={MID1_Y-PD} name="Field 1" size="42m × 45m" booths={58} />
       <GreenLabel x={TW} y={MID2_Y+BS} w={RC_X-TW} h={FH-PD-MID2_Y-BS} walkway="Walkway" />
-      {FIELDS.A.topRow.map((id,i)      => <div key={id} style={{position:"absolute",left:TW+i*BS,top:0}}>{rb(id,BS,PD)}</div>)}
-      {FIELDS.A.rightCol.map((id,i)    => <div key={id} style={{position:"absolute",left:RC_X,top:PD+i*BS}}>{rb(id,PD,BS)}</div>)}
+      {/* Top row A2–A12: start after A1(36) + N/U(36) = x=72 */}
+      {FIELDS.A.topRow.map((id,i)      => <div key={id} style={{position:"absolute",left:TW+BS+i*BS,top:0}}>{rb(id,BS,PD)}</div>)}
+      {/* Right col A13–A22: width=BS=36 (3m) */}
+      {FIELDS.A.rightCol.map((id,i)    => <div key={id} style={{position:"absolute",left:RC_X,top:PD+i*BS}}>{rb(id,BS,BS)}</div>)}
+      {/* Bottom row A23–A34: starts at x=0 */}
       {FIELDS.A.bottomRow.map((id,i)   => <div key={id} style={{position:"absolute",left:i*BS,top:FH-PD}}>{rb(id,BS,PD)}</div>)}
       {FIELDS.A.middleRows[0].map((id,i)=> <div key={id} style={{position:"absolute",left:i*BS,top:MID1_Y}}>{rb(id,BS,BS)}</div>)}
       {FIELDS.A.middleRows[1].map((id,i)=> <div key={id} style={{position:"absolute",left:i*BS,top:MID2_Y}}>{rb(id,BS,BS)}</div>)}
@@ -223,21 +226,28 @@ function FieldAMap({ reservations, onSelect, isAdmin, onAdminCancel, selectedDep
   );
 }
 
-// ─── Field B map (32m×30m, 27 booths) ────────────────────────────────────────
+// ─── Field B map (32m×30m, 29 booths) ────────────────────────────────────────
 function FieldBMap({ reservations, onSelect, isAdmin, onAdminCancel, selectedDept }) {
-  const FW=384, FH=360, CN=PD, ENW=144, RC_X=384-PD;
+  const FW=384, FH=360, CN=PD;
+  const ENW=10*12, ENT_X=FW-ENW; // entrance 10m=120px, starts at x=264
+  const MID_Y=Math.round((FH-BS)/2); // vertically centered = 162px
+  const MID_X=PD+2*BS;               // offset 2 booth-widths from left col = 120px
   const rb = (id,bw,bh) => <Booth key={id} id={id} bw={bw} bh={bh} reservations={reservations} onSelect={onSelect} isAdmin={isAdmin} onAdminCancel={onAdminCancel} selectedDept={selectedDept}/>;
   return (
     <div style={{position:"relative",width:FW,height:FH,background:"#1b6b3a",border:"2px solid #134f2a",borderRadius:6,flexShrink:0}}>
-      <Corner x={0}       y={0}     w={CN}  h={PD} type="nu"  label="N/U" />
-      <Corner x={FW-ENW}  y={0}     w={ENW} h={PD} type="ent" label="ENTRANCE — 12 m" />
-      <Corner x={0}       y={FH-PD} w={CN}  h={PD} type="nu"  label="N/U" />
-      <Corner x={RC_X}    y={FH-PD} w={PD}  h={PD} type="nu"  label="N/U" />
-      <GreenLabel x={PD} y={PD} w={RC_X-PD} h={FH-2*PD} name="Field 2" size="32m × 30m" booths={27} />
-      {FIELDS.B.topRow.map((id,i)   => <div key={id} style={{position:"absolute",left:CN+i*BS,top:0}}>{rb(id,BS,PD)}</div>)}
-      {FIELDS.B.rightCol.map((id,i) => <div key={id} style={{position:"absolute",left:RC_X,top:PD+i*BS}}>{rb(id,PD,BS)}</div>)}
-      {FIELDS.B.bottomRow.map((id,i)=> <div key={id} style={{position:"absolute",left:CN+i*BS,top:FH-PD}}>{rb(id,BS,PD)}</div>)}
-      {FIELDS.B.leftCol.map((id,i)  => <div key={id} style={{position:"absolute",left:0,top:PD+i*BS}}>{rb(id,CN,BS)}</div>)}
+      <Corner x={0}      y={0}     w={CN}  h={PD}  type="nu"  label="N/U" />
+      <Corner x={ENT_X}  y={0}     w={ENW} h={PD}  type="ent" label="ENTRANCE — 10 m" />
+      <Corner x={0}      y={FH-CN} w={CN}  h={CN}  type="nu"  label="N/U" />
+      {/* No bottom-right corner — right column removed */}
+      <GreenLabel x={PD} y={PD} w={ENT_X-PD} h={FH-2*PD} name="Field 2" size="32m × 30m" booths={29} />
+      {/* Top row B1–B6 (6 booths) */}
+      {FIELDS.B.topRow.map((id,i)    => <div key={id} style={{position:"absolute",left:CN+i*BS,top:0}}>{rb(id,BS,PD)}</div>)}
+      {/* Bottom row B7–B15 (9 booths, right-to-left labeling) */}
+      {FIELDS.B.bottomRow.map((id,i) => <div key={id} style={{position:"absolute",left:CN+i*BS,top:FH-PD}}>{rb(id,BS,PD)}</div>)}
+      {/* Left col B16–B22 (7 booths, top to bottom) */}
+      {FIELDS.B.leftCol.map((id,i)   => <div key={id} style={{position:"absolute",left:0,top:PD+i*BS}}>{rb(id,CN,BS)}</div>)}
+      {/* Middle row B23–B29 (7 booths, offset from left col) */}
+      {FIELDS.B.middleRows[0].map((id,i) => <div key={id} style={{position:"absolute",left:MID_X+i*BS,top:MID_Y}}>{rb(id,BS,BS)}</div>)}
     </div>
   );
 }
