@@ -362,7 +362,7 @@ function ConfirmCancelModal({ boothId, reservation, onConfirm, onCancel }) {
   if (!boothId) return null;
   const cfg = DEPT[getDept(boothId)];
   return (
-    <div onClick={onCancel} style={{position:"fixed",inset:0,background:"rgba(15,23,42,.65)",backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:1500,padding:16}}>
+    <div onClick={onCancel} style={{position:"fixed",inset:0,background:"rgba(15,23,42,.65)",backdropFilter:"blur(4px)",display:"flex",alignItems:"center",justifyContent:"center",zIndex:4000,padding:16}}>
       <div onClick={e=>e.stopPropagation()} style={{background:"#fff",borderRadius:12,padding:24,maxWidth:340,width:"100%",boxShadow:"0 20px 60px rgba(0,0,0,.3)"}}>
         <div style={{fontSize:16,fontWeight:800,color:"#0f172a",marginBottom:8}}>Cancel this reservation?</div>
         <div style={{fontSize:13,color:"#475569",marginBottom:4}}>
