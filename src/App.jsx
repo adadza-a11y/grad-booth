@@ -342,8 +342,8 @@ function Modal({ boothId, onClose, onConfirm, loading }) {
           <button onClick={onClose} style={{width:32,height:32,borderRadius:"50%",border:"none",background:"#f1f5f9",cursor:"pointer",fontSize:18,color:"#64748b",display:"flex",alignItems:"center",justifyContent:"center"}}>×</button>
         </div>
         <FormField label="Student Name" value={name} onChange={e=>setName(e.target.value)} placeholder="Your full name" required accentColor={cfg.color} {...foc("name")}/>
-        <FormField label="CUE ID" value={cueId} onChange={e=>setCueId(e.target.value)} placeholder="e.g. CUE-2026-1234" required accentColor={cfg.color} {...foc("cueId")}/>
-        <FormField label="Student Email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@cue.edu" required type="email" accentColor={cfg.color} {...foc("email")}/>
+        <FormField label="CUE ID" value={cueId} onChange={e=>setCueId(e.target.value)} placeholder="e.g. CUEAC22001" required accentColor={cfg.color} {...foc("cueId")}/>
+        <FormField label="Student Email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="studentID@cue.edu.krd" required type="email" accentColor={cfg.color} {...foc("email")}/>
         {email.length>3&&!emailValid&&<div style={{fontSize:11,color:"#ef4444",marginTop:-10,marginBottom:10}}>Please enter a valid email address.</div>}
         <div style={{display:"flex",gap:10,marginTop:20}}>
           <button onClick={onClose} style={{flex:1,padding:"11px 0",border:"1.5px solid #e2e8f0",borderRadius:9,background:"#fff",cursor:"pointer",fontSize:14,fontWeight:600,color:"#64748b"}}>Cancel</button>
