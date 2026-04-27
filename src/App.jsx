@@ -283,19 +283,27 @@ function FieldMap({ field, ...props }) {
 }
 
 // ─── Department selector ──────────────────────────────────────────────────────
+const CUE_NAVY = "#0d1f5c";
+const CUE_CYAN = "#29b6d4";
+const CUE_LOGO = "https://cue.edu.krd/wp-content/uploads/2021/08/CUE-Univercity-in-Erbil-logo.png";
+
 function DeptSelector({ onSelect }) {
   const [hov, setHov] = useState(null);
   return (
     <div style={{minHeight:"100vh",background:"#f1f5f9",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
-      <div style={{background:"linear-gradient(135deg,#0c2340,#1a3f6f)",color:"#fff",padding:"22px 28px"}}>
-        <div style={{fontSize:10,fontWeight:700,color:"#93c5fd",letterSpacing:".12em",textTransform:"uppercase",marginBottom:6}}>Class of 2026 · Pre-Graduation Event</div>
-        <h1 style={{margin:0,fontSize:22,fontWeight:900,letterSpacing:"-.02em"}}>Booth Reservation Map</h1>
+      <div style={{background:`linear-gradient(135deg,${CUE_NAVY},#1a3a8f)`,color:"#fff",padding:"18px 28px",display:"flex",alignItems:"center",gap:18}}>
+        <img src={CUE_LOGO} alt="CUE Logo" style={{height:52,width:"auto",filter:"brightness(0) invert(1)",flexShrink:0}}/>
+        <div style={{width:"1px",height:44,background:"rgba(255,255,255,.2)"}}/>
+        <div onClick={()=>{}} style={{userSelect:"none"}}>
+          <div style={{fontSize:10,fontWeight:700,color:CUE_CYAN,letterSpacing:".12em",textTransform:"uppercase",marginBottom:5}}>Catholic University in Erbil · Class of 2026</div>
+          <h1 style={{margin:0,fontSize:22,fontWeight:900,letterSpacing:"-.02em"}}>Pre-Graduation Booth Reservation</h1>
+        </div>
       </div>
-      <div style={{background:"#fff",borderBottom:"1px solid #e2e8f0",padding:"14px 28px",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
+      <div style={{background:"#fff",borderBottom:`2px solid ${CUE_CYAN}`,padding:"13px 28px",display:"flex",alignItems:"center",gap:10,flexWrap:"wrap"}}>
         {[{n:1,label:"Select your department",active:true},{n:2,label:"Choose a booth"},{n:3,label:"Confirm details"}].map(({n,label,active})=>(
           <span key={n} style={{display:"flex",alignItems:"center",gap:8}}>
-            <span style={{width:26,height:26,borderRadius:"50%",background:active?"#1a3f6f":"#e2e8f0",color:active?"#fff":"#94a3b8",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:800,flexShrink:0}}>{n}</span>
-            <span style={{fontSize:14,fontWeight:active?700:500,color:active?"#1a3f6f":"#94a3b8"}}>{label}</span>
+            <span style={{width:26,height:26,borderRadius:"50%",background:active?CUE_NAVY:"#e2e8f0",color:active?"#fff":"#94a3b8",display:"flex",alignItems:"center",justifyContent:"center",fontSize:13,fontWeight:800,flexShrink:0}}>{n}</span>
+            <span style={{fontSize:14,fontWeight:active?700:500,color:active?CUE_NAVY:"#94a3b8"}}>{label}</span>
             {n<3 && <span style={{color:"#94a3b8"}}>→</span>}
           </span>
         ))}
@@ -407,7 +415,7 @@ function AdminLogin({ onClose, onSuccess }) {
         {err&&<div style={{fontSize:12,color:"#ef4444",marginBottom:10}}>Incorrect password.</div>}
         <div style={{display:"flex",gap:10,marginTop:12}}>
           <button onClick={onClose} style={{flex:1,padding:"10px 0",border:"1.5px solid #e2e8f0",borderRadius:9,background:"#fff",cursor:"pointer",fontSize:14,fontWeight:600,color:"#64748b"}}>Cancel</button>
-          <button onClick={attempt} style={{flex:2,padding:"10px 0",border:"none",borderRadius:9,fontSize:14,fontWeight:700,color:"#fff",background:"#0c2340",cursor:"pointer"}}>Enter</button>
+          <button onClick={attempt} style={{flex:2,padding:"10px 0",border:"none",borderRadius:9,fontSize:14,fontWeight:700,color:"#fff",background:CUE_NAVY,cursor:"pointer"}}>Enter</button>
         </div>
       </div>
     </div>
@@ -599,18 +607,22 @@ export default function App() {
   return (
     <div style={{fontFamily:"'Segoe UI',system-ui,sans-serif",minHeight:"100vh",background:"#f1f5f9"}}>
       {/* Header */}
-      <div style={{background:"linear-gradient(135deg,#0c2340,#1a3f6f)",color:"#fff",padding:"18px 24px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
-        <div onClick={handleTitleClick} style={{cursor:"default",userSelect:"none"}}>
-          <div style={{fontSize:10,fontWeight:700,color:"#93c5fd",letterSpacing:".12em",textTransform:"uppercase",marginBottom:5}}>Class of 2026 · Pre-Graduation Event</div>
-          <h1 style={{margin:0,fontSize:20,fontWeight:900,letterSpacing:"-.02em"}}>Booth Reservation Map</h1>
+      <div style={{background:`linear-gradient(135deg,${CUE_NAVY},#1a3a8f)`,color:"#fff",padding:"14px 24px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
+        <div style={{display:"flex",alignItems:"center",gap:16}}>
+          <img src={CUE_LOGO} alt="CUE" style={{height:44,width:"auto",filter:"brightness(0) invert(1)",flexShrink:0}}/>
+          <div style={{width:"1px",height:36,background:"rgba(255,255,255,.2)"}}/>
+          <div onClick={handleTitleClick} style={{cursor:"default",userSelect:"none"}}>
+            <div style={{fontSize:9,fontWeight:700,color:CUE_CYAN,letterSpacing:".12em",textTransform:"uppercase",marginBottom:4}}>Catholic University in Erbil · Class of 2026</div>
+            <h1 style={{margin:0,fontSize:18,fontWeight:900,letterSpacing:"-.02em"}}>Pre-Graduation Booth Reservation</h1>
+          </div>
         </div>
         <div style={{display:"flex",gap:10,alignItems:"center"}}>
-          {isAdmin&&<button onClick={()=>setShowAdminPanel(true)} style={{padding:"8px 16px",border:"1px solid rgba(255,255,255,.3)",borderRadius:8,background:"rgba(255,255,255,.12)",cursor:"pointer",fontSize:12,fontWeight:700,color:"#fff"}}>⚙ Admin Panel</button>}
+          {isAdmin&&<button onClick={()=>setShowAdminPanel(true)} style={{padding:"8px 16px",border:`1px solid ${CUE_CYAN}`,borderRadius:8,background:"rgba(41,182,212,.15)",cursor:"pointer",fontSize:12,fontWeight:700,color:CUE_CYAN}}>⚙ Admin Panel</button>}
           {[{label:"Total",s:total},{label:"Field 1",s:sA},{label:"Field 2",s:sB},{label:"Field 3",s:sC}].map(({label,s})=>(
             <div key={label} style={{background:"rgba(255,255,255,.1)",borderRadius:9,padding:"8px 14px",textAlign:"center",minWidth:76}}>
               <div style={{fontSize:20,fontWeight:900,lineHeight:1}}>{s.free}</div>
-              <div style={{fontSize:8,color:"#93c5fd",marginTop:3,fontWeight:600,letterSpacing:".06em",textTransform:"uppercase"}}>{label} Free</div>
-              <div style={{fontSize:8,color:"#94a3b8",marginTop:1}}>{s.res}/{s.total}</div>
+              <div style={{fontSize:8,color:CUE_CYAN,marginTop:3,fontWeight:600,letterSpacing:".06em",textTransform:"uppercase"}}>{label} Free</div>
+              <div style={{fontSize:8,color:"rgba(255,255,255,.5)",marginTop:1}}>{s.res}/{s.total}</div>
             </div>
           ))}
         </div>
@@ -638,9 +650,9 @@ export default function App() {
           const active=activeField===f;
           const s=stats(f);
           return (
-            <button key={f} onClick={()=>setActiveField(f)} style={{padding:"14px 18px",border:"none",borderBottom:active?"3px solid #1a3f6f":"3px solid transparent",background:"none",cursor:"pointer",fontSize:13,fontWeight:active?700:500,color:active?"#1a3f6f":"#64748b",display:"flex",alignItems:"center",gap:8,transition:"all .15s"}}>
+            <button key={f} onClick={()=>setActiveField(f)} style={{padding:"14px 18px",border:"none",borderBottom:active?`3px solid ${CUE_CYAN}`:"3px solid transparent",background:"none",cursor:"pointer",fontSize:13,fontWeight:active?700:500,color:active?CUE_NAVY:"#64748b",display:"flex",alignItems:"center",gap:8,transition:"all .15s"}}>
               {FIELDS[f].name} · {FIELDS[f].subtitle}
-              <span style={{background:active?"#1a3f6f":"#e2e8f0",color:active?"#fff":"#64748b",borderRadius:999,padding:"1px 8px",fontSize:11,fontWeight:700}}>{s.free} free</span>
+              <span style={{background:active?CUE_CYAN:"#e2e8f0",color:active?"#fff":"#64748b",borderRadius:999,padding:"1px 8px",fontSize:11,fontWeight:700}}>{s.free} free</span>
             </button>
           );
         })}
