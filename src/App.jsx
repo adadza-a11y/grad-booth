@@ -292,8 +292,7 @@ function DeptSelector({ onSelect }) {
   return (
     <div style={{minHeight:"100vh",background:"#f1f5f9",fontFamily:"'Segoe UI',system-ui,sans-serif"}}>
       <div style={{background:`linear-gradient(135deg,${CUE_NAVY},#1a3a8f)`,color:"#fff",padding:"18px 28px",display:"flex",alignItems:"center",gap:18}}>
-        <div style={{background:"#fff",borderRadius:8,padding:"4px 8px",display:"flex",alignItems:"center",flexShrink:0}}><img src={CUE_LOGO_B64} alt="CUE" style={{height:40,width:"auto"}}/></div>
-        <div style={{width:"1px",height:44,background:"rgba(255,255,255,.2)"}}/>
+        
         <div onClick={()=>{}} style={{userSelect:"none"}}>
           <div style={{fontSize:10,fontWeight:700,color:CUE_CYAN,letterSpacing:".12em",textTransform:"uppercase",marginBottom:5}}>Catholic University in Erbil · Class of 2026</div>
           <h1 style={{margin:0,fontSize:22,fontWeight:900,letterSpacing:"-.02em"}}>Pre-Graduation Booth Reservation</h1>
@@ -609,8 +608,7 @@ export default function App() {
       {/* Header */}
       <div style={{background:`linear-gradient(135deg,${CUE_NAVY},#1a3a8f)`,color:"#fff",padding:"14px 24px",display:"flex",justifyContent:"space-between",alignItems:"center",flexWrap:"wrap",gap:12}}>
         <div style={{display:"flex",alignItems:"center",gap:16}}>
-          <div style={{background:"#fff",borderRadius:8,padding:"3px 7px",display:"flex",alignItems:"center",flexShrink:0}}><img src={CUE_LOGO_B64} alt="CUE" style={{height:36,width:"auto"}}/></div>
-          <div style={{width:"1px",height:36,background:"rgba(255,255,255,.2)"}}/>
+          
           <div onClick={handleTitleClick} style={{cursor:"default",userSelect:"none"}}>
             <div style={{fontSize:9,fontWeight:700,color:CUE_CYAN,letterSpacing:".12em",textTransform:"uppercase",marginBottom:4}}>Catholic University in Erbil · Class of 2026</div>
             <h1 style={{margin:0,fontSize:18,fontWeight:900,letterSpacing:"-.02em"}}>Pre-Graduation Booth Reservation</h1>
